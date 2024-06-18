@@ -203,6 +203,9 @@ func (iter *Iterator) ReportError(operation string, msg string) {
 			return
 		}
 	}
+	//if iter.Error == io.EOF {
+	//	return
+	//}
 	peekStart := iter.head - 10
 	if peekStart < 0 {
 		peekStart = 0

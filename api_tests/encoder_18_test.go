@@ -1,4 +1,5 @@
-//+build go1.8
+//go:build go1.8
+// +build go1.8
 
 package test
 
@@ -8,8 +9,10 @@ import (
 	"testing"
 	"unicode/utf8"
 
-	"github.com/json-iterator/go"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	"github.com/egsam98/json-iterator"
 )
 
 func Test_new_encoder(t *testing.T) {
@@ -28,19 +31,17 @@ func Test_new_encoder(t *testing.T) {
 
 func Test_string_encode_with_std_without_html_escape(t *testing.T) {
 	api := jsoniter.Config{EscapeHTML: false}.Froze()
-	should := require.New(t)
 	for i := 0; i < utf8.RuneSelf; i++ {
 		input := string([]byte{byte(i)})
 		buf := &bytes.Buffer{}
 		encoder := json.NewEncoder(buf)
 		encoder.SetEscapeHTML(false)
 		err := encoder.Encode(input)
-		should.Nil(err)
+		assert.Nil(t, err)
 		stdOutput := buf.String()
 		stdOutput = stdOutput[:len(stdOutput)-1]
 		jsoniterOutputBytes, err := api.Marshal(input)
-		should.Nil(err)
-		jsoniterOutput := string(jsoniterOutputBytes)
-		should.Equal(stdOutput, jsoniterOutput)
+		assert.Nil(t, err)
+		assert.Equal(t, stdOutput, string(jsoniterOutputBytes))
 	}
 }

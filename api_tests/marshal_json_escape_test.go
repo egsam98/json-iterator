@@ -5,8 +5,9 @@ import (
 	"encoding/json"
 	"testing"
 
-	jsoniter "github.com/json-iterator/go"
 	"github.com/stretchr/testify/require"
+
+	jsoniter "github.com/egsam98/json-iterator"
 )
 
 var marshalConfig = jsoniter.Config{

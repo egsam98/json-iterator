@@ -3,16 +3,17 @@ package test
 import (
 	"bytes"
 	"fmt"
-	"github.com/json-iterator/go"
-	"github.com/stretchr/testify/require"
 	"strconv"
 	"testing"
 	"time"
 	"unsafe"
+
+	"github.com/stretchr/testify/require"
+
+	"github.com/egsam98/json-iterator"
 )
 
 func Test_customize_type_decoder(t *testing.T) {
-	t.Skip()
 	jsoniter.RegisterTypeDecoderFunc("time.Time", func(ptr unsafe.Pointer, iter *jsoniter.Iterator) {
 		t, err := time.ParseInLocation("2006-01-02 15:04:05", iter.ReadString(), time.UTC)
 		if err != nil {
@@ -34,7 +35,6 @@ func Test_customize_type_decoder(t *testing.T) {
 }
 
 func Test_customize_byte_array_encoder(t *testing.T) {
-	t.Skip()
 	//jsoniter.ConfigDefault.(*frozenConfig).cleanEncoders()
 	should := require.New(t)
 	jsoniter.RegisterTypeEncoderFunc("[]uint8", func(ptr unsafe.Pointer, stream *jsoniter.Stream) {
@@ -52,7 +52,7 @@ type CustomEncoderAttachmentTestStruct struct {
 	Value int32 `json:"value"`
 }
 
-type CustomEncoderAttachmentTestStructEncoder struct {}
+type CustomEncoderAttachmentTestStructEncoder struct{}
 
 func (c *CustomEncoderAttachmentTestStructEncoder) Encode(ptr unsafe.Pointer, stream *jsoniter.Stream) {
 	attachVal, ok := stream.Attachment.(int)
@@ -96,7 +96,6 @@ func Test_customize_field_decoder(t *testing.T) {
 }
 
 func Test_recursive_empty_interface_customization(t *testing.T) {
-	t.Skip()
 	var obj interface{}
 	jsoniter.RegisterTypeDecoderFunc("interface {}", func(ptr unsafe.Pointer, iter *jsoniter.Iterator) {
 		switch iter.WhatIsNext() {

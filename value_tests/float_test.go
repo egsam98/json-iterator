@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"testing"
 
-	jsoniter "github.com/json-iterator/go"
+	jsoniter "github.com/egsam98/json-iterator"
 	"github.com/stretchr/testify/require"
 )
 
